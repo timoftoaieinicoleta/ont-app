@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+
+  <title>ONT Digital Hub</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --yellow: #f5d328;
+      --black: #111111;
+      --cream: #f7f2e8;
+      --white: #ffffff;
+      --grey: #777;
+      --border: #e8e2d8;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f3ee;
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: auto;
+      min-height: 100vh;
+      background: var(--cream);
+      padding-bottom: 90px;
+    }
+
+    header {
+      background: var(--black);
+      color: white;
+      padding: 22px 20px 26px;
+    }
+
+    .brand {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .tag {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--yellow);
+    }
+
+    .welcome {
+      margin-top: 28px;
+    }
+
+    .welcome small {
+      color: #bbb;
+    }
+
+    .welcome h1 {
+      font-size: 28px;
+      line-height: 1.05;
+      margin-top: 6px;
+    }
+
+    .welcome p {
+      color: #d5d5d5;
+      margin-top: 10px;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .section {
+      padding: 22px 18px 0;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      margin-bottom: 12px;
+    }
+
+    .card {
+      border-radius: 18px;
+      padding: 22px;
+      min-height: 205px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      transition: 0.25s;
+    }
+
+    .card.black {
+      background: linear-gradient(135deg,#111,#383838);
+    }
+
+    .card.red {
+      background: linear-gradient(135deg,#520b16,#a2152d);
+    }
+
+    .card.gold {
+      background: linear-gradient(135deg,#8c6920,#e1c36a);
+      color:#151515;
+    }
+
+    .card.pearl {
+      background: linear-gradient(135deg,#eee8df,#ffffff);
+      color:#151515;
+      border:1px solid #ddd4c7;
+    }
+
+    .card-top {
+      display:flex;
+      justify-content:space-between;
+      align-items:start;
+    }
+
+    .card-logo {
+      font-size:25px;
+      font-weight:900;
+      letter-spacing:2px;
+    }
+
+    .member-label {
+      font-size:9px;
+      letter-spacing:1.6px;
+      opacity:.8;
+    }
+
+    .qr {
+      width:62px;
+      height:62px;
+      background:
+        linear-gradient(90deg,currentColor 8px,transparent 8px) 0 0/16px 16px,
+        linear-gradient(currentColor 8px,transparent 8px) 0 0/16px 16px;
+      border:6px solid rgba(255,255,255,.8);
+      opacity:.85;
+    }
+
+    .gold .qr,
+    .pearl .qr {
+      border-color:rgba(0,0,0,.1);
+    }
+
+    .card-bottom {
+      position:absolute;
+      bottom:20px;
+      left:22px;
+      right:22px;
+    }
+
+    .member-name {
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .member-number {
+      font-size:11px;
+      letter-spacing:2px;
+      opacity:.7;
+      margin-top:5px;
+    }
+
+    .colors {
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .color-btn {
+      border:none;
+      height:42px;
+      flex:1;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:bold;
+      font-size:11px;
+    }
+
+    .color-btn[data-color="black"] {
+      background:#111;
+      color:white;
+    }
+
+    .color-btn[data-color="red"] {
+      background:#7e1024;
+      color:white;
+    }
+
+    .color-btn[data-color="gold"] {
+      background:#c9a94d;
+    }
+
+    .color-btn[data-color="pearl"] {
+      background:#fff;
+      border:1px solid #ddd;
+    }
+
+    .points {
+      background:var(--yellow);
+      border-radius:18px;
+      padding:20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .points strong {
+      font-size:32px;
+    }
+
+    .points p {
+      font-size:12px;
+      max-width:190px;
+      line-height:1.35;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .tile {
+      background:white;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
+      min-height:130px;
+      cursor:pointer;
+    }
+
+    .tile-icon {
+      font-size:26px;
+      margin-bottom:18px;
+    }
+
+    .tile h3 {
+      font-size:15px;
+    }
+
+    .tile p {
+      font-size:11px;
+      color:#777;
+      margin-top:5px;
+      line-height:1.35;
+    }
+
+    .lesson {
+      background:white;
+      border:1px solid var(--border);
+      padding:16px;
+      border-radius:14px;
+      margin-bottom:10px;
+    }
+
+    .lesson small {
+      font-size:10px;
+      color:#888;
+      letter-spacing:1px;
+    }
+
+    .lesson h3 {
+      font-size:15px;
+      margin:6px 0;
+    }
+
+    .lesson p {
+      font-size:12px;
+      color:#666;
+      line-height:1.4;
+    }
+
+    .lesson button {
+      margin-top:12px;
+      border:0;
+      background:#111;
+      color:white;
+      border-radius:10px;
+      padding:10px 14px;
+      cursor:pointer;
+    }
+
+    .hidden {
+      display:none;
+    }
+
+    nav {
+      position:fixed;
+      bottom:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:100%;
+      max-width:480px;
+      display:flex;
+      background:#111;
+      padding:10px 5px 12px;
+      z-index:50;
+    }
+
+    nav button {
+      flex:1;
+      background:none;
+      border:0;
+      color:#aaa;
+      font-size:9px;
+      cursor:pointer;
+      padding:4px;
+    }
+
+    nav button span {
+      display:block;
+      font-size:20px;
+      margin-bottom:3px;
+    }
+
+    nav button.active {
+      color:var(--yellow);
+    }
+
+    .page-title {
+      padding:25px 18px 5px;
+      font-size:27px;
+    }
+
+    .page-sub {
+      padding:3px 18px 12px;
+      color:#666;
+      line-height:1.45;
+      font-size:13px;
+    }
+
+    .benefit {
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:15px;
+      padding:17px;
+      margin-bottom:10px;
+    }
+
+    .benefit strong {
+      display:block;
+    }
+
+    .benefit span {
+      color:#777;
+      font-size:12px;
+    }
+
+    .discount {
+      color:#8b0e26;
+      font-weight:bold;
+      margin-top:7px;
+    }
+
+    .footer-note {
+      padding:25px 20px;
+      text-align:center;
+      color:#888;
+      font-size:10px;
+      line-height:1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- HOME -->
+  <main id="homePage">
+
+    <header>
+      <div class="brand">
+        <div>
+          <div class="logo">ONT</div>
+          <div class="tag">OPEN NETWORK TRANSFORMATION</div>
+        </div>
+        <div>●</div>
+      </div>
+
+      <div class="welcome">
+        <small>WELCOME TO YOUR NETWORK</small>
+        <h1>Your space.<br>Your learning.<br>Your choice.</h1>
+        <p>
+          Access ONT, learn at your own pace, discover member benefits
+          and stay connected wherever you are.
+        </p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="section-title">MY ONT CARD</div>
+
+      <div id="memberCard" class="card black">
+        <div class="card-top">
+          <div>
+            <div class="card-logo">ONT</div>
+            <div class="member-label">MEMBER & LEARNING PASS</div>
+          </div>
+
+          <div class="qr"></div>
+        </div>
+
+        <div class="card-bottom">
+          <div class="member-name">MY ONT</div>
+          <div class="member-number">MEMBER • 000001</div>
+        </div>
+      </div>
+
+      <div class="colors">
+        <button class="color-btn" data-color="red">RED</button>
+        <button class="color-btn" data-color="gold">GOLD</button>
+        <button class="color-btn" data-color="black">BLACK</button>
+        <button class="color-btn" data-color="pearl">PEARL</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">MY PROGRESS</div>
+
+      <div class="points">
+        <div>
+          <small>ONT POINTS</small><br>
+          <strong id="pointsValue">340</strong>
+        </div>
+
+        <p>
+          Learn, participate and build practical knowledge.
+          Your progress belongs to you.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">EXPLORE ONT</div>
+
+      <div class="grid">
+
+        <div class="tile" onclick="showPage('learnPage','learnNav')">
+          <div class="tile-icon">◉</div>
+          <h3>ONT Academy</h3>
+          <p>Lessons, scenarios and Practice Before Risk.</p>
+        </div>
+
+        <div class="tile" onclick="showPage('benefitsPage','benefitsNav')">
+          <div class="tile-icon">◇</div>
+          <h3>Benefits</h3>
+          <p>Member discounts and partner offers.</p>
+        </div>
+
+        <div class="tile" onclick="showPage('libraryPage','libraryNav')">
+          <div class="tile-icon">▤</div>
+          <h3>Library</h3>
+          <p>Read, borrow and discover new knowledge.</p>
+        </div>
+
+        <div class="tile" onclick="showPage('helpPage','helpNav')">
+          <div class="tile-icon">✦</div>
+          <h3>Help & Info</h3>
+          <p>Practical information when you need it.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="footer-note">
+      PRIVACY BY DESIGN · ACCESS WITHOUT EXPOSURE<br>
+      ONT — AMSTERDAM
+    </div>
+  </main>
+
+
+  <!-- LEARN -->
+  <main id="learnPage" class="hidden">
+
+    <h1 class="page-title">ONT Academy</h1>
+    <p class="page-sub">
+      Learn privately and at your own pace.
+      Knowledge before risk.
+    </p>
+
+    <section class="section">
+
+      <div class="lesson">
+        <small>EXERCISE CAUTION</small>
+        <h3>Practice Before Risk</h3>
+        <p>
+          Explore real-life scenarios and practise recognising
+          choices before they become urgent.
+        </p>
+        <button onclick="completeLesson(this,25)">Complete · +25 points</button>
+      </div>
+
+      <div class="lesson">
+        <small>LIFE</small>
+        <h3>Money & Independence</h3>
+        <p>
+          Practical basics around your own money, access,
+          accounts and financial choices.
+        </p>
+        <button onclick="completeLesson(this,20)">Complete · +20 points</button>
+      </div>
+
+      <div class="lesson">
+        <small>WORK</small>
+        <h3>Boundaries & Communication</h3>
+        <p>
+          Recognition, negotiation and clear professional communication.
+        </p>
+        <button onclick="completeLesson(this,20)">Complete · +20 points</button>
+      </div>
+
+      <div class="lesson">
+        <small>BODY</small>
+        <h3>Health & Safety Basics</h3>
+        <p>
+          Practical knowledge, hygiene, consent and emergency awareness.
+        </p>
+        <button onclick="completeLesson(this,20)">Complete · +20 points</button>
+      </div>
+
+    </section>
+  </main>
+
+
+  <!-- BENEFITS -->
+  <main id="benefitsPage" class="hidden">
+
+    <h1 class="page-title">Member Benefits</h1>
+    <p class="page-sub">
+      One card connecting ONT members with useful places,
+      services and future partners.
+    </p>
+
+    <section class="section">
+
+      <div class="benefit">
+        <strong>Night Essentials</strong>
+        <span>ONT self-service & selected essentials</span>
+        <div class="discount">MEMBER BENEFIT</div>
+      </div>
+
+      <div class="benefit">
+        <strong>Beauty & Hair</strong>
+        <span>Partner salons and independent professionals</span>
+        <div class="discount">PARTNERS COMING SOON</div>
+      </div>
+
+      <div class="benefit">
+        <strong>Lingerie & Work Essentials</strong>
+        <span>Selected local and online partners</span>
+        <div class="discount">PARTNERS COMING SOON</div>
+      </div>
+
+      <div class="benefit">
+        <strong>Food & Restaurants</strong>
+        <span>Future ONT member offers around Amsterdam</span>
+        <div class="discount">PARTNERS COMING SOON</div>
+      </div>
+
+      <div class="benefit">
+        <strong>Circular Fashion</strong>
+        <span>Reuse, repair, exchange and selected partners</span>
+        <div class="discount">CIRCULAR NETWORK</div>
+      </div>
+
+    </section>
+  </main>
+
+
+  <!-- LIBRARY -->
+  <main id="libraryPage" class="hidden">
+
+    <h1 class="page-title">ONT Library</h1>
+    <p class="page-sub">
+      Books and practical knowledge that can travel with you.
+    </p>
+
+    <section class="section">
+
+      <div class="lesson">
+        <small>AVAILABLE</small>
+        <h3>Practical Life</h3>
+        <p>Money, administration, independence and everyday skills.</p>
+        <button>View collection</button>
+      </div>
+
+      <div class="lesson">
+        <small>AVAILABLE</small>
+        <h3>Work & Communication</h3>
+        <p>Professional skills, boundaries and decision-making.</p>
+        <button>View collection</button>
+      </div>
+
+      <div class="lesson">
+        <small>MEMBER ACCESS</small>
+        <h3>Borrow with your ONT Card</h3>
+        <p>
+          Future members will be able to reserve and borrow books
+          through their digital card.
+        </p>
+      </div>
+
+    </section>
+  </main>
+
+
+  <!-- HELP -->
+  <main id="helpPage" class="hidden">
+
+    <h1 class="page-title">Help & Information</h1>
+
+    <p class="page-sub">
+      Useful information should be available before a situation becomes urgent.
+    </p>
+
+    <section class="section">
+
+      <div class="benefit">
+        <strong>Practical Amsterdam</strong>
+        <span>Transport · documents · services · city information</span>
+      </div>
+
+      <div class="benefit">
+        <strong>Work & Safety Information</strong>
+        <span>Recognition · preparation · practical choices</span>
+      </div>
+
+      <div class="benefit">
+        <strong>ONT Hub</strong>
+        <span>Opening information, activities and appointments</span>
+      </div>
+
+      <div class="benefit">
+        <strong>Online Connection</strong>
+        <span>
+          Future private member communication and community functions.
+        </span>
+      </div>
+
+    </section>
+  </main>
+
+
+  <!-- NAVIGATION -->
+  <nav>
+
+    <button id="homeNav" class="active" onclick="showPage('homePage','homeNav')">
+      <span>⌂</span>
+      HOME
+    </button>
+
+    <button id="learnNav" onclick="showPage('learnPage','learnNav')">
+      <span>◎</span>
+      LEARN
+    </button>
+
+    <button id="benefitsNav" onclick="showPage('benefitsPage','benefitsNav')">
+      <span>◇</span>
+      BENEFITS
+    </button>
+
+    <button id="libraryNav" onclick="showPage('libraryPage','libraryNav')">
+      <span>▤</span>
+      LIBRARY
+    </button>
+
+    <button id="helpNav" onclick="showPage('helpPage','helpNav')">
+      <span>?</span>
+      HELP
+    </button>
+
+  </nav>
+
+</div>
+
+
+<script>
+
+  function showPage(pageId, navId) {
+
+    const pages = [
+      'homePage',
+      'learnPage',
+      'benefitsPage',
+      'libraryPage',
+      'helpPage'
+    ];
+
+    pages.forEach(id => {
+      document.getElementById(id).classList.add('hidden');
+    });
+
+    document.getElementById(pageId).classList.remove('hidden');
+
+    document.querySelectorAll('nav button').forEach(button => {
+      button.classList.remove('active');
+    });
+
+    document.getElementById(navId).classList.add('active');
+
+    window.scrollTo(0,0);
+  }
+
+
+  const memberCard = document.getElementById('memberCard');
+
+  document.querySelectorAll('.color-btn').forEach(button => {
+
+    button.addEventListener('click', function() {
+
+      const chosenColor = this.dataset.color;
+
+      memberCard.className = 'card ' + chosenColor;
+
+      localStorage.setItem('ontCardColor', chosenColor);
+    });
+
+  });
+
+
+  const savedColor = localStorage.getItem('ontCardColor');
+
+  if(savedColor) {
+    memberCard.className = 'card ' + savedColor;
+  }
+
+
+  let points = Number(localStorage.getItem('ontPoints')) || 340;
+
+  document.getElementById('pointsValue').textContent = points;
+
+
+  function completeLesson(button, value) {
+
+    if(button.dataset.completed === 'yes') {
+      return;
+    }
+
+    points += value;
+
+    localStorage.setItem('ontPoints', points);
+
+    document.getElementById('pointsValue').textContent = points;
+
+    button.textContent = 'Completed ✓';
+
+    button.dataset.completed = 'yes';
+
+    button.style.background = '#777';
+  }
+
+</script>
+
+</body>
+</html>
